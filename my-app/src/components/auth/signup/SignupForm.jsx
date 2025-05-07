@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 
 const SignupForm = () => {
 
@@ -40,6 +41,11 @@ const handleSubmit = (e) => {
 			alert("Signup error:", data.message);
 		}
 	})
+    .catch((error) => {
+        console.error("Signup error:", error);
+        alert("An error occurred during signup. Please try again.");
+    })
+}
 
 	return (
 		<div className="min-h-screen flex py-10 px-52 bg-gray-100">
@@ -65,7 +71,7 @@ const handleSubmit = (e) => {
 							</h2>
 						</div>
 
-						<form className="space-y-5 mx-14" autoComplete="off" noValidate>
+						<form className="space-y-5 mx-14" autoComplete="off" noValidate onSubmit={handleSubmit}>
 							<div>
 								<label
 									htmlFor="fullname"
@@ -130,7 +136,7 @@ const handleSubmit = (e) => {
 							<div className="flex items-center justify-between gap-4">
 								<button
 									type="submit"
-                                    onClick={handleSubmit}
+                                    
 									className="py-2 px-12 border border-transparent text-xs font-medium rounded-4xl text-white bg-[#7A57D3] hover:bg-indigo-700 focus:outline-none"
 								>
 									Sign Up
@@ -177,6 +183,6 @@ const handleSubmit = (e) => {
 			</div>
 		</div>
 	);
-}};
+};
 
 export default SignupForm;
