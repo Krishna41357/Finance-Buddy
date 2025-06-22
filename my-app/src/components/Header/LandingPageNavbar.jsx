@@ -60,7 +60,7 @@ const LandingPageNavbar = () => {
 					<div className="flex-1 flex justify-end items-center space-x-4">
 						<button
 							onClick={handleLoginClick}
-							className="bg-white text-[#309565] cursor-pointer text-white px-8 py-2 rounded-full font-medium hover:opacity-90 transition-all duration-300"
+							className="bg-white text-[#309565] cursor-pointer text-green-600 px-8 py-2 rounded-full font-medium hover:opacity-90 transition-all duration-300"
 						>
 							Login
 						</button>

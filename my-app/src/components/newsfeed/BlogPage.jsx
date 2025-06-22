@@ -123,7 +123,7 @@ const BlogPage = ({ userId, initialType = "Blog" }) => {
       </div>
 
       {/* Scrollable Feeds Area */}
-      <div className="flex-1 overflow-y-auto custom-scrollbar mt-4 px-6 md:px-12 lg:px-28 pb-10">
+      <div className="flex-1 overflow-y-auto overflow-x-hidden custom-scrollbar mt-4 px-6 md:px-6 pb-10">
         {loading ? (
           <div className="flex flex-col items-center justify-center min-h-[30vh] text-center mt-10">
             <svg

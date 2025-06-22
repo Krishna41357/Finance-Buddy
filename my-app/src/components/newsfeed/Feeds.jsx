@@ -3,7 +3,7 @@ import NewsCard from './NewsCard'; // adjust path if needed
 
 const Feeds = ({ articles }) => {
   return (
-    <div className="w-full flex flex-col gap-6">
+    <div className="w-[90%] flex flex-col gap-6">
       {articles && articles.map((article, index) => (
         <NewsCard
           key={index}
