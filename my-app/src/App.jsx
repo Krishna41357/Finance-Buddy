@@ -1,49 +1,63 @@
-import './App.css'
-import BeforeLogin from './pages/landingPage/BeforeLogin'
-import { Routes , Route } from 'react-router-dom'
-import LoginPage from './components/auth/login/loginPage'
-import SignupForm from './components/auth/signup/signupForm'
+import './App.css';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
-import NewsCard from './components/newsfeed/NewsCard'
-import Feeds from './components/newsfeed/Feeds'
-import BlogPage from './components/newsfeed/BlogPage'
-import UserPillar from './components/UserPillar/UserPillar'
-import AfterLogin from './pages/landingPage/AfterLogin'
-import OnboardingPage from './pages/onboarding/OnboardingPage'
 
+// User pages
+import BeforeLogin from './pages/landingPage/BeforeLogin';
+import LoginPage from './components/auth/login/loginPage';
+import SignupForm from './components/auth/signup/signupForm';
+import OnboardingPage from './pages/onboarding/OnboardingPage';
+import AfterLogin from './pages/landingPage/AfterLogin';
+
+// Admin pages
+
+import AdminPanel from './pages/AdminPannel/AdminPanel';
+import AdminLogin from './pages/AdminPannel/AdminLogin';
+import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
+import AboutPage from './pages/onboarding/About/AboutPage';
 
 function App() {
+  const adminToken = localStorage.getItem('adminToken');
+  const adminData = JSON.parse(localStorage.getItem('adminData') || '{}');
+
   return (
     <>
       <div>
-        <Toaster position='top-center' toastOptions={{
-          className: 'p-4 w-[400px]',
-        }}></Toaster>
+        <Toaster position="top-center" toastOptions={{ className: 'p-4 w-[400px]' }} />
       </div>
-     {/* <PageTransition variant="blur"> */}
+
       <Routes>
         {/* Landing Page */}
         <Route path="/" element={<BeforeLogin />} />
-        
-        {/* Authentication Routes */}
+
+        {/* User Auth */}
         <Route path="/auth/login" element={<LoginPage />} />
-        <Route path="/auth/signup" element={<SignupForm />} /> 
-        
-        {/* Onboarding Flow */}
+        <Route path="/auth/signup" element={<SignupForm />} />
+
+        {/* Onboarding and Dashboard */}
         <Route path="/preferences" element={<OnboardingPage />} />
-        
-        {/* Main Dashboard */}
         <Route path="/dashboard" element={<AfterLogin />} />
-        
-        {/* Other existing routes (uncomment as needed) */}
-        {/* <Route path="/news" element={<NewsCard />} /> */}
-        {/* <Route path="/feeds" element={<Feeds />} /> */}
-        {/* <Route path="/blog" element={<BlogPage />} /> */}
-        {/* <Route path="/user" element={<UserPillar />} /> */}
-      </Routes>
+
+        {/* About-us */}
+        <Route path="/about-us" element={<AboutPage/>} />
+
+        {/* Redirects */}
+
+        {/* Admin Auth and Panel */}
+        <Route path='/admin' element={<AdminLogin/>}/>
       
+        <Route
+          path="/admin/dashboard"
+          element={
+          <ProtectedRoute>
+          <AdminPanel/>
+          </ProtectedRoute>
+          }
+
+        />
+      </Routes>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

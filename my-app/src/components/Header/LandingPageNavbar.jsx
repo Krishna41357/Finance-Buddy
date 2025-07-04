@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import {
 	useNavigate,
   } from "react-router-dom";
+  import { Link } from "react-router-dom";
 
 const LandingPageNavbar = () => {
 	 const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -18,15 +19,15 @@ const LandingPageNavbar = () => {
 	 	navigate("/auth/signup");
 	 };
 
-	// const handleAboutUsClick = () => {
-	// 	router.push("/about-us");
-	// };
+	 const handleAboutUsClick = () => {
+		navigate("/about-us");
+	 };
 
 	// const handleContactUsClick = () => {
 	// 	router.push("/contact-us");
 	// };
 
-	// const handleHomeClick = () => router.push("/");
+	const handleHomeClick = () => navigate("/");
 
 	return (
         
@@ -37,13 +38,13 @@ const LandingPageNavbar = () => {
 					{/* Centered navigation */}
 					<nav className="absolute left-1/3 transform -translate-x-1/2 hidden md:flex space-x-8">
 						<button
-							// onClick={handleHomeClick}
+						 onClick={handleHomeClick}
 							className="text-white font-semibold hover:text-gray-300 transition"
 						>
 							Home
 						</button>
 						<button
-							// onClick={handleAboutUsClick}
+							onClick={handleAboutUsClick}
 							className="text-white font-semibold hover:text-gray-300 transition"
 						>
 							About Us
@@ -117,6 +118,8 @@ const LandingPageNavbar = () => {
 						<a
 							href="#"
 							className="block py-2 px-4 text-gray-600 hover:bg-gray-100"
+							onClick={(e)=>{e.preventDefault() ;
+								navigate("/about-us")}}
 						>
 							About Us
 						</a>

@@ -3,8 +3,8 @@ import axios from 'axios';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
-
-import Stocks3DBackground from './Stocks3DBackground'; // adjust path as needed
+import Stocks3DBackground from './ChartBackground.jsx';
+import ChartBackground from './ChartBackground.jsx';
 
 const topics = [
   'Personal Finance',
@@ -24,7 +24,7 @@ const OnboardingPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (user && user.userId) {
+    if (user?.userId) {
       setUserId(user.userId);
     } else {
       toast.error('User not authenticated. Please log in again.');
@@ -52,23 +52,17 @@ const OnboardingPage = () => {
       });
 
       toast.success('Preferences saved successfully!');
-      console.log('Saved preferences:', res.data);
       navigate('/dashboard');
     } catch (error) {
-      console.error('Error saving preferences:', error);
       toast.error(error.response?.data?.message || 'Something went wrong');
     }
   };
 
   return (
-    <div className="relative w-screen h-screen overflow-hidden bg-green-900 text-white flex items-center justify-center">
-      {/* Ribbon border animation container */}
-      <div className="ribbon-border z-0"></div>
+   <div className="relative w-screen h-screen overflow-hidden bg-green-900 text-white flex items-center justify-center">
+  <ChartBackground />
 
-      {/* 3D Animated Background */}
-      <Stocks3DBackground />
-
-      {/* Main onboarding UI */}
+      {/* Main UI */}
       <div className="z-10 flex flex-col items-center justify-center text-center px-4 max-w-3xl">
         <h1 className="text-4xl font-bold mb-4">Welcome Onboard!</h1>
         <p className="text-lg text-center mb-6 max-w-2xl">
@@ -102,4 +96,3 @@ const OnboardingPage = () => {
 };
 
 export default OnboardingPage;
-    
