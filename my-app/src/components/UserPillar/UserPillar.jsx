@@ -1,143 +1,128 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Avatar from '../Avatar/Avatar'
+import Avatar from '../Avatar/Avatar';
 
-// Mock Avatar component for demonstration
-
-const UserPillar = ({ username }) => {
+const UserPillar = ({ username, userId, selectedPage, setSelectedPage }) => {
   const navigate = useNavigate();
   const [isLoggingOut, setIsLoggingOut] = useState(false);
-  
-  console.log('UserPillar received username:', username);
-  
+  const [coinBalance, setCoinBalance] = useState(null);
+
   const displayName = username || 'shubham';
-  
+
   const navigationItems = [
-    { name: 'Home', icon: '🏠', active: true },
-    { name: 'Portfolio', icon: '💼', active: false },
-    { name: 'Paper Trading', icon: '📊', active: false },
-    { name: 'YogiBot', icon: '🤖', active: false },
+    { name: 'Home', icon: '🏠' },
+    { name: 'Content Feed', icon: '📰' },
+    { name: 'Portfolio', icon: '💼' },
+    { name: 'Quiz', icon: '📚' },
+    { name: 'Paper Trading', icon: '📊' },
+    { name: 'YogiBot', icon: '🤖' },
   ];
-  
-  const handleLogout = async () => {
-    setIsLoggingOut(true);
-    
-    try {
-      const response = await fetch('http://localhost:8000/api/v1/auth/logout', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include', // Include cookies if using session-based auth
-      });
-      
-      if (response.ok) {
-        // Clear any local storage or session storage if needed
-        localStorage.removeItem('token'); // Remove token if stored locally
-        localStorage.removeItem('user'); // Remove user data if stored locally
-        
-        // Navigate to home page
-        navigate('/');
-      } else {
-        console.error('Logout failed:', response.statusText);
-        // You might want to show an error message to the user
-        alert('Logout failed. Please try again.');
+
+  useEffect(() => {
+    const fetchCoins = async () => {
+      try {
+        const res = await fetch(`http://localhost:8000/api/v1/user/coins/${userId}`);
+        const data = await res.json();
+        setCoinBalance(data?.coins || 0);
+      } catch (err) {
+        console.error('Failed to fetch Yogi Coins:', err);
+        setCoinBalance(0);
       }
-    } catch (error) {
-      console.error('Error during logout:', error);
-      // You might want to show an error message to the user
-      alert('An error occurred during logout. Please try again.');
-    } finally {
-      setIsLoggingOut(false);
-    }
-  };
-  
+    };
+
+    if (userId) fetchCoins();
+  }, [userId]);
+
   return (
-    <div className=" w-72 bg-white border-r rounded-xl border-gray-100">
-      {/* Main container with proper spacing */}
-      <div className="h-full flex flex-col">
-        
-        {/* Header section with logo, user info, and portfolio */}
-        <div className="px-6 py-8 border-b border-gray-50">
-          {/* Logo section */}
-          <div className="flex items-center justify-center mb-6">
-            <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-green-600 rounded-2xl flex items-center justify-center shadow-lg">
-              <span className="text-white font-bold text-xl"><Avatar name={username}/></span>
-            </div>
-          </div>
-          
-          {/* User info */}
-          <div className="text-center mb-6">
-            <h2 className="text-gray-800 font-semibold text-lg mb-1">{displayName}</h2>
-            <p className="text-gray-500 text-sm">Financial Planner</p>
-          </div>
-          
-          {/* Portfolio card */}
-          <div className="bg-gradient-to-br from-green-500 to-green-600 rounded-2xl p-5 text-white shadow-lg">
-            <div className="text-center">
-              <p className="text-green-100 text-xs font-medium uppercase tracking-wide mb-2">
-                Portfolio Value
-              </p>
-              <h3 className="text-2xl font-bold mb-1">₹2,45,678</h3>
-              <p className="text-green-200 text-sm">
-                <span className="inline-flex items-center">
-                  <span className="mr-1">↗</span>
-                  +12.5% this month
-                </span>
-              </p>
-            </div>
+    <div className="w-72 bg-gradient-to-br from-slate-900 via-emerald-950 to-black text-white border-r border-white/10 h-full flex flex-col overflow-hidden shadow-xl">
+      {/* User Info */}
+      <div className="px-4 py-6  border-b border-white/10">
+        <div className="flex items-center justify-center mb-4">
+          <div className="w-14 h-14 bg-gradient-to-br from-green-400 to-emerald-500 rounded-2xl flex items-center justify-center shadow-lg">
+            <span className="text-white font-bold text-xl">
+              <Avatar name={username} />
+            </span>
           </div>
         </div>
-        
-        {/* Navigation section with more space */}
-        <div className="flex-1 px-4 py-6">
-          <nav className="space-y-2">
-            {navigationItems.map((item, index) => (
-              <div
-                key={index}
-                className={`group relative flex items-center px-4 py-3 rounded-xl cursor-pointer transition-all duration-200 ${
-                  item.active 
-                    ? 'bg-green-50 text-green-700 border border-green-100' 
-                    : 'text-gray-600 hover:bg-gray-50 hover:text-gray-800'
-                }`}
-              >
-                <span className={`text-lg mr-4 transition-transform duration-200 ${
-                  item.active ? 'scale-110' : 'group-hover:scale-105'
-                }`}>
-                  {item.icon}
-                </span>
-                <span className="font-medium text-sm">
-                  {item.name}
-                </span>
-                
-                {/* Active indicator */}
-                {item.active && (
-                  <div className="absolute right-3 w-2 h-2 bg-green-500 rounded-full"></div>
-                )}
-              </div>
-            ))}
-            
-            {/* Logout button */}
-            <button 
-              onClick={handleLogout}
-              disabled={isLoggingOut}
-              className={`group relative flex items-center px-4 py-3 rounded-xl cursor-pointer transition-all duration-200 w-full text-left ${
-                isLoggingOut 
-                  ? 'text-gray-400 cursor-not-allowed' 
-                  : 'text-red-600 hover:bg-red-50 hover:text-red-700'
+        <div className="text-center">
+          <h2 className="text-lg font-semibold mb-1 text-emerald-300">{displayName}</h2>
+         
+        </div>
+
+        {/* Yogi Coins */}
+        <div className="bg-emerald-500/10 border border-emerald-400/20 mt-4 rounded-xl p-4 text-center shadow-md">
+          <p className="text-emerald-300 text-xs uppercase tracking-wide">Yogi Coins</p>
+          <h3 className="text-xl font-bold text-white mt-1">
+            {coinBalance !== null ? (
+              <>
+                {coinBalance} <span className="spin-z inline-block">🪙</span>
+              </>
+            ) : (
+              <span className="animate-pulse text-gray-400">Loading...</span>
+            )}
+          </h3>
+         
+        </div>
+      </div>
+
+      {/* Navigation */}
+      <div className="flex-1 px-4 py-6 scrollbar-hide overflow-y-auto">
+        <nav className="space-y-2">
+          {navigationItems.map((item, index) => (
+            <div
+              key={index}
+              onClick={() => setSelectedPage(item.name)}
+              className={`group relative flex items-center px-4 py-3 rounded-xl cursor-pointer transition-all duration-200 ${
+                selectedPage === item.name
+                  ? 'bg-emerald-600/20 text-emerald-300 border border-emerald-500/30 shadow-inner'
+                  : 'text-gray-300 hover:bg-white/10 hover:text-white'
               }`}
             >
-              <span className={`text-lg mr-4 transition-transform duration-200 ${
-                isLoggingOut ? '' : 'group-hover:scale-105'
-              }`}>
-                {isLoggingOut ? '⏳' : '🚪'}
-              </span>
-              <span className="font-medium text-sm">
-                {isLoggingOut ? 'Logging out...' : 'Logout'}
-              </span>
-            </button>
-          </nav>
-        </div>
+              <span className="text-lg mr-4">{item.icon}</span>
+              <span className="font-medium text-sm">{item.name}</span>
+              {selectedPage === item.name && (
+                <div className="absolute right-3 w-2 h-2 bg-green-400 rounded-full"></div>
+              )}
+            </div>
+          ))}
+
+          {/* Logout */}
+          <button
+            onClick={async () => {
+              setIsLoggingOut(true);
+              try {
+                await fetch('http://localhost:8000/api/v1/auth/logout', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  credentials: 'include',
+                });
+                localStorage.removeItem('token');
+                localStorage.removeItem('user');
+                navigate('/');
+              } catch (err) {
+                alert('Logout failed.');
+              } finally {
+                setIsLoggingOut(false);
+              }
+            }}
+            disabled={isLoggingOut}
+            className={`group relative flex items-center px-4 py-3 mt-6 rounded-xl w-full transition-all duration-200 text-left ${
+              isLoggingOut
+                ? 'text-gray-400 cursor-not-allowed'
+                : 'text-red-500 hover:bg-red-500/10 hover:text-red-400'
+            }`}
+          >
+            <span className="text-lg mr-4">{isLoggingOut ? '⏳' : '🚪'}</span>
+            <span className="font-medium text-sm">
+              {isLoggingOut ? 'Logging out...' : 'Logout'}
+            </span>
+          </button>
+        </nav>
+      </div>
+
+      {/* Footer */}
+      <div className="px-4 py-4 border-t border-white/10 text-xs text-gray-500 text-center">
+        © 2025 Savings Yogi. All rights reserved.
       </div>
     </div>
   );

@@ -2,57 +2,119 @@ import React from "react";
 
 const Subscribe = () => {
     return (
-        <section className="bg-gray-50 py-16 px-6 md:px-20">
-            <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-12">
+        <section className="py-20 px-6 md:px-20 relative overflow-hidden">
+            {/* Background with gradient */}
+            <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-slate-900 to-gray-800" />
+            
+            {/* Background glow effects */}
+            <div className="absolute top-10 left-10 w-72 h-72 bg-green-400/10 rounded-full blur-3xl animate-pulse" />
+            <div className="absolute bottom-10 right-10 w-96 h-96 bg-emerald-400/10 rounded-full blur-3xl animate-pulse delay-1000" />
+            <div className="absolute top-1/2 right-1/3 w-48 h-48 bg-green-300/15 rounded-full blur-2xl animate-pulse delay-500" />
+
+            <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-16 relative z-10">
 
                 {/* Left Section */}
-                <div className="flex-1 flex flex-col items-start">
-                    {/* Image */}
-                    <img
-                        src="/subscribe.png"
-                        alt="Subscribe"
-                        className="w-80 h-80 object-cover rounded-2xl mb-6 shadow-md"
-                    />
+                <div className="flex-1 flex flex-col items-center lg:items-start">
+                    {/* Image Container with Glass Effect */}
+                    <div className="relative mb-8">
+                        <div 
+                            className="w-80 h-80 backdrop-blur-xl border border-white/10 rounded-3xl shadow-2xl overflow-hidden"
+                            style={{
+                                background: 'linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.03) 100%)',
+                                boxShadow: '0 25px 45px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.1)',
+                            }}
+                        >
+                            {/* Inner glow */}
+                            <div className="absolute inset-0 bg-gradient-to-br from-green-400/10 via-transparent to-emerald-500/10 pointer-events-none" />
+                            
+                            <img
+                                src="/subscribe.png"
+                                alt="Subscribe"
+                                className="w-full h-full object-cover"
+                            />
+                        </div>
+                        
+                        {/* Floating glow ring */}
+                        <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-green-400/20 to-emerald-500/20 blur-xl animate-pulse opacity-50" />
+                    </div>
 
-                    {/* Heading */}
-                    <h3 className="text-2xl font-bold text-gray-900 mb-2">
-                        Subscribe to the FinVeda Newsletter!
-                    </h3>
+                    {/* Content */}
+                    <div className="text-center lg:text-left">
+                        <h3 className="text-3xl font-bold text-white mb-4">
+                            Subscribe to the
+                            <span 
+                                className="text-green-400 drop-shadow-[0_0_20px_#22c55e] block lg:inline"
+                                style={{ textShadow: '0 0 30px #22c55e, 0 0 40px #22c55e' }}
+                            >
+                                {' '}FinVeda Newsletter!
+                            </span>
+                        </h3>
 
-                    {/* Small description */}
-                    <p className="text-gray-600 mb-4">
-                        Join thousands of smart investors & start growing your wealth today!
-                    </p>
+                        <p className="text-gray-300 mb-6 text-lg">
+                            Join thousands of smart investors & start growing your wealth today!
+                        </p>
 
-                    {/* Stars */}
-                    <div className="flex items-center space-x-1 text-yellow-500 text-4xl">
-                        <span>★</span>
-                        <span>★</span>
-                        <span>★</span>
-                        <span>★</span>
-                        <span className="text-gray-400">★</span> {/* Half star look */}
+                        {/* Glowing Stars */}
+                        <div className="flex items-center justify-center lg:justify-start space-x-2 text-5xl">
+                            <span className="text-yellow-400 drop-shadow-[0_0_10px_#fbbf24] animate-pulse">★</span>
+                            <span className="text-yellow-400 drop-shadow-[0_0_10px_#fbbf24] animate-pulse delay-100">★</span>
+                            <span className="text-yellow-400 drop-shadow-[0_0_10px_#fbbf24] animate-pulse delay-200">★</span>
+                            <span className="text-yellow-400 drop-shadow-[0_0_10px_#fbbf24] animate-pulse delay-300">★</span>
+                            <span className="text-gray-400 drop-shadow-[0_0_5px_#9ca3af] animate-pulse delay-400">★</span>
+                        </div>
                     </div>
                 </div>
 
                 {/* Right Section */}
-                <div className="flex-1 bg-white p-8 pt-20 pb-20 mt-20 rounded-2xl shadow-md">
-                    {/* Input */}
-                    <input
-                        type="email"
-                        placeholder="Enter your Email"
-                        className="w-full p-4 rounded-lg bg-[#D9ECCD] text-gray-700 mb-4 focus:outline-none"
-                    />
+                <div className="flex-1 w-full max-w-lg">
+                    <div 
+                        className="relative backdrop-blur-xl border border-white/10 shadow-2xl p-10 rounded-3xl"
+                        style={{
+                            background: 'linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.03) 100%)',
+                            boxShadow: '0 25px 45px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.1)',
+                        }}
+                    >
+                        {/* Inner glow */}
+                        <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-green-400/10 via-transparent to-emerald-500/10 pointer-events-none" />
+                        
+                        <div className="relative z-10">
+                            {/* Input Container */}
+                            <div className="relative mb-6">
+                                <input
+                                    type="email"
+                                    placeholder="Enter your Email"
+                                    className="w-full p-4 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:border-green-400/50 transition-all duration-300"
+                                    style={{
+                                        background: 'linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%)',
+                                        boxShadow: '0 8px 25px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.1)',
+                                    }}
+                                />
+                                
+                                {/* Input glow effect */}
+                                <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-green-400/10 to-emerald-400/10 opacity-0 hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+                            </div>
 
-                    {/* Subscribe Button */}
-                    <button className="bg-[#319465] text-white px-8 py-2 rounded-full mb-4 font-semibold hover:opacity-90 transition">
-                        Subscribe Now
-                    </button>
+                            {/* Subscribe Button */}
+                            <div className="relative mb-6">
+                                <div className="absolute inset-0 rounded-full blur-xl bg-green-400 opacity-30 animate-pulse" />
+                                <button 
+                                    className="relative w-full backdrop-blur-md bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-500 hover:to-emerald-500 text-white font-bold py-4 px-8 rounded-full shadow-2xl border border-green-400/30 transition-all duration-300 hover:scale-105 hover:shadow-green-500/50"
+                                    style={{
+                                        background: 'linear-gradient(135deg, rgba(34, 197, 94, 0.8) 0%, rgba(16, 185, 129, 0.8) 100%)',
+                                        boxShadow: '0 10px 30px rgba(34, 197, 94, 0.3), inset 0 1px 0 rgba(255,255,255,0.2)',
+                                    }}
+                                >
+                                    Subscribe Now
+                                </button>
+                            </div>
 
-                    {/* Small text */}
-                    <p className="text-gray-500 text-sm">
-                        Stay ahead in your financial journey with exclusive insights, expert tips,
-                        and real-time market updates — delivered straight to your inbox!
-                    </p>
+                            {/* Description */}
+                            <p className="text-gray-300 text-sm leading-relaxed text-center">
+                                Stay ahead in your financial journey with exclusive insights, expert tips,
+                                and real-time market updates — delivered straight to your inbox!
+                            </p>
+                        </div>
+                    </div>
                 </div>
 
             </div>

@@ -15,6 +15,7 @@ import AdminPanel from './pages/AdminPannel/AdminPanel';
 import AdminLogin from './pages/AdminPannel/AdminLogin';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 import AboutPage from './pages/onboarding/About/AboutPage';
+import QuizPage from './pages/Quiz/QuizMainPage';
 
 function App() {
   const adminToken = localStorage.getItem('adminToken');
@@ -40,6 +41,9 @@ function App() {
 
         {/* About-us */}
         <Route path="/about-us" element={<AboutPage/>} />
+
+        <Route path="/quiz" element={<QuizPage/>}/>
+
 
         {/* Redirects */}
 

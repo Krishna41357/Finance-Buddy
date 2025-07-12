@@ -78,3 +78,19 @@ button:focus-visible {
   box-sizing: border-box;
 }
 
+@keyframes spinZ {
+  0% {
+    transform: rotateZ(0deg) rotateY(0deg);
+    opacity: 0;
+  }
+  100% {
+    transform: rotateZ(360deg) rotateY(360deg);
+    opacity: 1;
+  }
+}
+
+.spin-z {
+  animation: spinZ 1s ease-out;
+  display: inline-block;
+  transform-style: preserve-3d;
+}

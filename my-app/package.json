@@ -12,11 +12,12 @@
   "dependencies": {
     "@react-three/drei": "^10.1.2",
     "@react-three/fiber": "^9.1.2",
+    "@tailwindcss/line-clamp": "^0.4.4",
     "@tailwindcss/vite": "^4.1.5",
     "axios": "^1.9.0",
     "chart.js": "^4.5.0",
     "core-js-pure": "^3.43.0",
-    "framer-motion": "^12.16.0",
+    "framer-motion": "^12.23.3",
     "gsap": "^3.13.0",
     "lucide-react": "^0.513.0",
     "prop-types": "^15.8.1",
@@ -25,9 +26,11 @@
     "react-dom": "^19.1.0",
     "react-hot-toast": "^2.5.2",
     "react-icons": "^5.5.0",
+    "react-oauth-popup": "^1.0.5",
     "react-router": "^7.6.0",
     "react-router-dom": "^7.6.0",
     "react-select": "^5.10.1",
+    "tailwind-scrollbar-hide": "^4.0.0",
     "three": "^0.177.0"
   },
   "devDependencies": {
