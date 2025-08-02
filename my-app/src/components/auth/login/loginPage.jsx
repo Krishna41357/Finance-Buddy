@@ -4,7 +4,7 @@ import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../../context/AuthContext';
 
-const BASE_API = 'http://localhost:8000/api/v1/auth';
+const BASE_API = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api/v1';
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -23,7 +23,7 @@ const LoginPage = () => {
     }
 
     try {
-      const res = await axios.post(`${BASE_API}/login`, { email, password });
+      const res = await axios.post(`${BASE_API}/api/v1/auth/login`, { email, password });
       const data = res.data;
       if (data?.token) {
         login({ token: data.token, user: data.user });
@@ -44,7 +44,7 @@ const LoginPage = () => {
   };
 
   const handleGoogleLogin = () => {
-    window.location.href = `${BASE_API}/google`;
+    window.location.href = `${BASE_API}/api/v1/auth/google`;
   };
 
   return (

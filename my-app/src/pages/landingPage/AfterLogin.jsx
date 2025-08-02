@@ -3,6 +3,10 @@ import { AuthContext } from '../../context/AuthContext';
 import UserPillar from '../../components/UserPillar/UserPillar';
 import BlogPage from '../../components/newsfeed/BlogPage';
 import QuizMainPage from '../Quiz/QuizMainPage';
+import SimulatorApp from '../VirtualSimulator/SimulatorApp';
+import Dashboard from './dashboard/Dashboard';
+import FinancialProfilePage from '../Financial_profile/FinancialProfilePage';
+import MarketResearchHub from '../MarketResearch/MarketResearchHub';
 
 const AfterLogin = () => {
   const { user, isAuthenticated, isLoading } = useContext(AuthContext);
@@ -58,9 +62,13 @@ const AfterLogin = () => {
         </div>
 
         {/* Page Content */}
-        <div className="flex-1 overflow-y-auto pl-2 scrollbar-hide w-screen  lg:mt-0">
+        <div className="flex-1 overflow-y-auto  scrollbar-hide w-screen  lg:mt-0">
+          {selectedPage === 'Home' && <Dashboard onActionClick={setSelectedPage} />}
           {selectedPage === 'Content Feed' && <BlogPage userId={userId} setShowOverlay={setShowOverlay} />}
           {selectedPage === 'Quiz' && <QuizMainPage />}
+          {selectedPage === 'Paper Trading' && <SimulatorApp/>}
+          {selectedPage === 'Portfolio' && <FinancialProfilePage username={username} />}
+          {selectedPage === 'Market Research' && <MarketResearchHub />}
         </div>
       </div>
 

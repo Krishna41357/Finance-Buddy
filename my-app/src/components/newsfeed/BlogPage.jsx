@@ -10,6 +10,7 @@ const BlogPage = ({ userId, initialType = "Blog", setShowOverlay = () => {} }) =
   const [type, setType] = useState(initialType);
   const [isToggled, setIsToggled] = useState(initialType === "news");
   const [page, setPage] = useState(1);
+  const BASE_API = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api/v1';
 
   const scrollRef = useRef(null);
   const overlayTimeoutRef = useRef(null);
@@ -25,7 +26,7 @@ const BlogPage = ({ userId, initialType = "Blog", setShowOverlay = () => {} }) =
     }
 
     try {
-      const url = `http://localhost:8000/api/v1/blogCache/recentBlogs?userId=${userId}&type=${type}&page=${isLoadMore ? page : 1}`;
+      const url = `${BASE_API}/api/v1/blogCache/recentBlogs?userId=${userId}&type=${type}&page=${isLoadMore ? page : 1}`;
       const res = await fetch(url);
       if (!res.ok) return console.error("Backend error", res.status);
 

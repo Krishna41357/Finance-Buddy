@@ -8,6 +8,7 @@ import LoginPage from './components/auth/login/loginPage';
 import SignupForm from './components/auth/signup/signupForm';
 import OnboardingPage from './pages/onboarding/OnboardingPage';
 import AfterLogin from './pages/landingPage/AfterLogin';
+import OAuthSuccessHandler from './components/auth/login/OAuthSuccessHandler';
 
 // Admin pages
 
@@ -16,6 +17,7 @@ import AdminLogin from './pages/AdminPannel/AdminLogin';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 import AboutPage from './pages/onboarding/About/AboutPage';
 import QuizPage from './pages/Quiz/QuizMainPage';
+import TokenSyncHandler from './components/TokenSyncHandler';
 
 function App() {
   const adminToken = localStorage.getItem('adminToken');
@@ -23,11 +25,13 @@ function App() {
 
   return (
     <>
+    <TokenSyncHandler/>
       <div>
         <Toaster position="top-center" toastOptions={{ className: 'p-4 w-[400px]' }} />
       </div>
 
       <Routes>
+        <Route path="/auth/success" element={<OAuthSuccessHandler />} />
         {/* Landing Page */}
         <Route path="/" element={<BeforeLogin />} />
 

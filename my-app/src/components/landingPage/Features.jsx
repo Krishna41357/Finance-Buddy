@@ -1,18 +1,27 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
-const Features = () => {
+const Features = ({ content = {} }) => {
   const sectionRef = useRef(null);
   const titleRef = useRef(null);
   const featureRefs = useRef([]);
+  const [activeFeature, setActiveFeature] = useState(0);
 
   useEffect(() => {
-    // Simple intersection observer for animations
+    // Auto-rotate active feature every 4 seconds
+    const interval = setInterval(() => {
+      setActiveFeature((prev) => (prev + 1) % 4);
+    }, 4000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             entry.target.style.opacity = '1';
-            entry.target.style.transform = 'translateY(0) scale(1)';
+            entry.target.style.transform = 'translateY(0)';
           }
         });
       },
@@ -27,210 +36,195 @@ const Features = () => {
     return () => observer.disconnect();
   }, []);
 
-  const features = [
+  // Dynamic content with fallbacks - mapped from backend schema
+  const mainTitle = content?.featuresMainTitle || 'AI-Powered Financial';
+  const subTitle = content?.featuresSubTitle || 'Intelligence Platform';
+  const description = content?.featuresDescription || 'Advanced tools and insights to accelerate your financial success';
+  
+  // Map features from backend content with default icons and colors
+  const featureList = [
+    {
+      icon: '🤖',
+      title: content?.feature1Title || 'AI Market Analysis',
+      description: content?.feature1Desc || 'Advanced AI algorithms analyze market trends and provide intelligent investment recommendations.',
+      color: '#00d4ff',
+    },
     {
       icon: '📊',
-      title: 'Financial Content Feed',
-      description: 'Stay updated with curated financial news, market insights, and educational content tailored for your learning level.',
-      gradient: 'from-blue-500/20 to-cyan-500/20',
-      glowColor: 'blue-400',
-      borderColor: 'blue-400/30',
-      rgbaGradient: 'linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(6, 182, 212, 0.1) 100%)',
+      title: content?.feature2Title || 'Real-Time Data Feed',
+      description: content?.feature2Desc || 'Live market data with real-time updates and customizable dashboard for tracking your portfolio.',
+      color: '#00ff88',
     },
     {
-      icon: '🔍',
-      title: 'In-Depth Market Research',
-      description: 'Access comprehensive market analysis and research tools designed for both beginners and professional traders.',
-      gradient: 'from-purple-500/20 to-pink-500/20',
-      glowColor: 'purple-400',
-      borderColor: 'purple-400/30',
-      rgbaGradient: 'linear-gradient(135deg, rgba(168, 85, 247, 0.1) 0%, rgba(236, 72, 153, 0.1) 100%)',
+      icon: '⚡',
+      title: content?.feature3Title || 'Smart Trading Signals',
+      description: content?.feature3Desc || 'AI-powered trading signals with risk assessment and automated alert system.',
+      color: '#ff6b35',
     },
     {
-      icon: '📈',
-      title: 'Paper Trading Platform',
-      description: 'Practice trading with virtual money in a risk-free environment that simulates real market conditions.',
-      gradient: 'from-green-500/20 to-emerald-500/20',
-      glowColor: 'green-400',
-      borderColor: 'green-400/30',
-      rgbaGradient: 'linear-gradient(135deg, rgba(34, 197, 94, 0.1) 0%, rgba(16, 185, 129, 0.1) 100%)',
-    },
-    {
-      icon: '🧠',
-      title: 'Financial Quizzes',
-      description: 'Test and improve your financial literacy with interactive quizzes and gamified learning experiences.',
-      gradient: 'from-orange-500/20 to-red-500/20',
-      glowColor: 'orange-400',
-      borderColor: 'orange-400/30',
-      rgbaGradient: 'linear-gradient(135deg, rgba(249, 115, 22, 0.1) 0%, rgba(239, 68, 68, 0.1) 100%)',
-    },
-  ];
+      icon: '🎯',
+      title: content?.feature4Title || 'Personalized Insights',
+      description: content?.feature4Desc || 'Personalized financial insights based on your goals, risk profile, and market behavior.',
+      color: '#a855f7',
+    }
+  ].filter(item => item.title && item.description);
+
+  const ctaText = content?.featuresCTA || 'Start Free Trial';
 
   return (
     <div 
-    ref={sectionRef}
-    className="relative min-h-screen py-20 px-4 sm:px-6 lg:px-8 overflow-hidden bg-gradient-to-b from-slate-900 to-gray-900"
+      ref={sectionRef}
+      className="relative min-h-screen py-16 px-4 sm:px-6 lg:px-8 bg-slate-900"
     >
-    {/* Glow Effects matching Hero section theme */}
-    <div className="absolute top-10 left-10 w-64 h-64 bg-green-500/10 rounded-full blur-3xl animate-pulse pointer-events-none" />
-    <div className="absolute bottom-20 right-20 w-80 h-80 bg-emerald-400/10 rounded-full blur-3xl animate-pulse delay-1000 pointer-events-none" />
-    <div className="absolute top-1/2 left-1/4 w-48 h-48 bg-blue-400/10 rounded-full blur-2xl animate-pulse delay-500 pointer-events-none" />
-
-  <div className="relative z-10 max-w-7xl mx-auto">
-    {/* Section Title */}
-    <div className="text-center mb-16">
-      <div
-        ref={titleRef}
-        className="inline-block p-8 rounded-3xl backdrop-blur-xl border border-white/10 shadow-2xl relative opacity-0 translate-y-12 transition-all duration-1000 ease-out"
-        style={{
-          background: 'linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.03) 100%)',
-          boxShadow: '0 25px 45px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.1)',
-        }}
-      >
-        <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-green-400/10 via-blue-400/10 to-purple-400/10 pointer-events-none" />
-        <div className="relative z-10">
-          <h2 
-            className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-4 leading-tight"
-            style={{ textShadow: '0 0 20px rgba(34, 197, 94, 0.3)' }}
-          >
-            Powerful Features for
-            <br />
-            <span 
-              className="text-transparent bg-clip-text bg-gradient-to-r from-green-400 via-blue-400 to-purple-400 drop-shadow-[0_0_20px_#22c55e]"
-              style={{ textShadow: '0 0 30px #22c55e, 0 0 40px #3b82f6' }}
-            >
-              Financial Success
-            </span>
-          </h2>
-          <p 
-            className="text-gray-300 text-lg sm:text-xl max-w-2xl mx-auto leading-relaxed"
-            style={{ textShadow: '0 2px 10px rgba(0,0,0,0.5)' }}
-          >
-            Everything you need to master financial literacy and build wealth
-          </p>
+      {/* Simplified Background Effects */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {/* Grid Pattern */}
+        <div className="absolute inset-0 opacity-[0.03]">
+          <div className="absolute inset-0" style={{
+            backgroundImage: `
+              linear-gradient(rgba(0, 212, 255, 0.5) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(0, 212, 255, 0.5) 1px, transparent 1px)
+            `,
+            backgroundSize: '60px 60px',
+          }} />
         </div>
+        
+        {/* Subtle Glow Effects */}
+        <div className="absolute top-20 right-20 w-96 h-96 bg-cyan-400/5 rounded-full blur-3xl" />
+        <div className="absolute bottom-20 left-20 w-80 h-80 bg-green-400/5 rounded-full blur-3xl" />
       </div>
-    </div>
 
-    {/* Feature Cards & Button continue below... */}
+      <div className="relative z-10 max-w-6xl mx-auto">
+        {/* Title Section */}
+        <div className="text-center mb-16">
+          <div
+            ref={titleRef}
+            className="opacity-0 translate-y-8 transition-all duration-1000 ease-out"
+          >
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4 leading-tight">
+              {mainTitle}
+              <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-green-400">
+                {subTitle}
+              </span>
+            </h2>
+            <p className="text-gray-400 text-lg max-w-2xl mx-auto leading-relaxed">
+              {description}
+            </p>
+          </div>
+        </div>
 
         {/* Features Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {features.map((feature, index) => (
-            <div
-              key={index}
-              ref={(el) => (featureRefs.current[index] = el)}
-              className="group relative p-6 rounded-2xl backdrop-blur-xl border border-white/10 shadow-2xl hover:shadow-3xl transition-all duration-500 hover:scale-105 cursor-pointer opacity-0 translate-y-20 scale-95"
-              style={{
-                background: 'linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.03) 100%)',
-                boxShadow: '0 20px 40px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.1)',
-                transitionDelay: `${index * 0.2}s`,
-              }}
-            >
-              {/* Animated Border */}
-              <div 
-                className={`absolute inset-0 rounded-2xl border-2 border-${feature.borderColor} opacity-0 group-hover:opacity-100 transition-opacity duration-300`}
+        <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-6 mb-16">
+          {featureList.map((feature, index) => {
+            const isActive = index === activeFeature;
+            
+            return (
+              <div
+                key={index}
+                ref={(el) => (featureRefs.current[index] = el)}
+                className={`relative p-6 rounded-2xl backdrop-blur-sm border transition-all duration-500 cursor-pointer opacity-0 translate-y-8 group ${
+                  isActive 
+                    ? 'bg-white/5 border-cyan-400/30 shadow-2xl' 
+                    : 'bg-white/[0.02] border-white/10 hover:bg-white/[0.03] hover:border-white/20'
+                }`}
                 style={{
-                  background: feature.rgbaGradient,
+                  transitionDelay: `${index * 0.1}s`,
+                  boxShadow: isActive ? `0 20px 40px ${feature.color}15` : undefined,
                 }}
-              />
-
-              {/* Glow Effect */}
-              <div 
-                className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${feature.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none`}
-              />
-
-              {/* Content */}
-              <div className="relative z-10">
-                {/* Icon */}
-                <div className="mb-4 flex justify-center">
-                  <div 
-                    className="w-16 h-16 rounded-full flex items-center justify-center text-3xl backdrop-blur-sm border border-white/20 shadow-lg group-hover:scale-110 transition-transform duration-300"
-                    style={{
-                      background: 'linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%)',
-                    }}
-                  >
-                    {feature.icon}
-                  </div>
+                onClick={() => setActiveFeature(index)}
+              >
+                {/* Feature Icon */}
+                <div className={`w-14 h-14 rounded-xl flex items-center justify-center mb-4 transition-all duration-300 ${
+                  isActive ? 'bg-white/10' : 'bg-white/5 group-hover:bg-white/8'
+                }`}>
+                  <span className="text-2xl">{feature.icon}</span>
                 </div>
 
-                {/* Title */}
-                <h3 
-                  className="text-xl sm:text-2xl font-bold text-white mb-3 text-center group-hover:text-green-300 transition-colors duration-300"
-                  style={{ textShadow: '0 2px 10px rgba(0,0,0,0.5)' }}
-                >
+                {/* Feature Content */}
+                <h3 className={`text-xl font-semibold mb-3 transition-colors duration-300 ${
+                  isActive ? 'text-white' : 'text-gray-200'
+                }`}>
                   {feature.title}
                 </h3>
-
-                {/* Description */}
-                <p 
-                  className="text-gray-300 text-sm sm:text-base text-center leading-relaxed group-hover:text-gray-200 transition-colors duration-300"
-                  style={{ textShadow: '0 2px 10px rgba(0,0,0,0.5)' }}
-                >
+                
+                <p className={`text-sm leading-relaxed transition-colors duration-300 ${
+                  isActive ? 'text-gray-300' : 'text-gray-400'
+                }`}>
                   {feature.description}
                 </p>
 
-                {/* Hover Action */}
-                <div className="mt-4 flex justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <button 
-                    className="px-4 py-2 rounded-full bg-gradient-to-r from-green-500 to-emerald-500 text-white text-sm font-semibold shadow-lg hover:shadow-green-500/50 transition-all duration-300 hover:scale-105"
-                    style={{
-                      background: 'linear-gradient(135deg, rgba(34, 197, 94, 0.8) 0%, rgba(16, 185, 129, 0.8) 100%)',
-                      boxShadow: '0 10px 20px rgba(34, 197, 94, 0.3)',
-                    }}
-                  >
-                    Learn More
-                  </button>
-                </div>
-              </div>
+                {/* Active Indicator */}
+                {isActive && (
+                  <div 
+                    className="absolute top-0 left-0 w-1 h-full rounded-l-2xl transition-all duration-300"
+                    style={{ backgroundColor: feature.color }}
+                  />
+                )}
 
-              {/* Floating particles effect */}
-              <div className="absolute inset-0 pointer-events-none overflow-hidden rounded-2xl">
+                {/* Hover Glow */}
                 <div 
-                  className={`absolute w-2 h-2 bg-${feature.glowColor} rounded-full opacity-0 group-hover:opacity-100 animate-bounce`}
+                  className={`absolute inset-0 rounded-2xl opacity-0 transition-opacity duration-300 pointer-events-none ${
+                    isActive ? 'opacity-100' : 'group-hover:opacity-50'
+                  }`}
                   style={{
-                    top: '20%',
-                    left: '10%',
-                    animationDelay: '0s',
-                    animationDuration: '2s',
+                    background: `linear-gradient(135deg, ${feature.color}08, transparent)`,
                   }}
                 />
-                <div 
-                  className={`absolute w-1 h-1 bg-${feature.glowColor} rounded-full opacity-0 group-hover:opacity-100 animate-bounce`}
-                  style={{
-                    top: '60%',
-                    right: '15%',
-                    animationDelay: '0.5s',
-                    animationDuration: '2.5s',
-                  }}
-                />
-                <div 
-                  className={`absolute w-1.5 h-1.5 bg-${feature.glowColor} rounded-full opacity-0 group-hover:opacity-100 animate-bounce`}
-                  style={{
-                    bottom: '20%',
-                    left: '20%',
-                    animationDelay: '1s',
-                    animationDuration: '3s',
-                  }}
-                />
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Active Feature Highlight */}
+        <div className="bg-white/[0.02] rounded-3xl p-8 mb-12 border border-white/10 backdrop-blur-sm">
+          <div className="flex items-center gap-4 mb-4">
+            <div 
+              className="w-12 h-12 rounded-xl flex items-center justify-center"
+              style={{ backgroundColor: `${featureList[activeFeature]?.color}20` }}
+            >
+              <span className="text-2xl">{featureList[activeFeature]?.icon}</span>
+            </div>
+            <div>
+              <h3 className="text-2xl font-bold text-white">
+                {featureList[activeFeature]?.title}
+              </h3>
+              <div className="flex gap-2 mt-2">
+                {featureList.map((_, i) => (
+                  <div
+                    key={i}
+                    className={`w-2 h-2 rounded-full transition-all duration-300 cursor-pointer ${
+                      i === activeFeature ? 'w-6' : ''
+                    }`}
+                    style={{
+                      backgroundColor: i === activeFeature 
+                        ? featureList[activeFeature]?.color 
+                        : 'rgba(255,255,255,0.2)',
+                    }}
+                    onClick={() => setActiveFeature(i)}
+                  />
+                ))}
               </div>
             </div>
-          ))}
+          </div>
+          <p className="text-gray-300 text-lg leading-relaxed">
+            {featureList[activeFeature]?.description}
+          </p>
         </div>
 
         {/* Call to Action */}
-        <div className="text-center mt-16">
-          <div className="inline-block">
-            <button
-              className="relative backdrop-blur-md bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-500 hover:to-emerald-500 text-white font-bold py-4 px-8 rounded-full shadow-2xl border border-green-400/30 transition-all duration-300 hover:scale-105 hover:shadow-green-500/50 text-lg"
-              style={{
-                background: 'linear-gradient(135deg, rgba(34, 197, 94, 0.8) 0%, rgba(16, 185, 129, 0.8) 100%)',
-                boxShadow: '0 15px 35px rgba(34, 197, 94, 0.3), inset 0 1px 0 rgba(255,255,255,0.2)',
-              }}
-            >
-              Get Started Today
-            </button>
-          </div>
+        <div className="text-center">
+          <button
+            className="relative px-8 py-4 rounded-xl bg-gradient-to-r from-cyan-600 to-green-600 text-white font-semibold text-lg transition-all duration-300 hover:scale-105 hover:shadow-xl border border-cyan-400/30 group"
+            style={{
+              boxShadow: '0 10px 25px rgba(0, 212, 255, 0.2)',
+            }}
+          >
+            <span className="flex items-center gap-3">
+              {ctaText}
+              <span className="group-hover:translate-x-1 transition-transform duration-300">→</span>
+            </span>
+          </button>
         </div>
       </div>
     </div>

@@ -9,7 +9,7 @@ const AdminLogin = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loginData, setLoginData] = useState({ email: '', password: '' });
   const [token, setToken] = useState('');
-  const API_BASE = 'http://localhost:8000/api/v1';
+  const BASE_API = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api/v1';
 
   // 🔁 Check if already logged in
   useEffect(() => {
@@ -35,7 +35,7 @@ const AdminLogin = () => {
     setLoading(true);
 
     try {
-      const response = await fetch(`${API_BASE}/auth/admin/login`, {
+      const response = await fetch(`${BASE_API}/api/v1/auth/admin/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

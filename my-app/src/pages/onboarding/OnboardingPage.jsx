@@ -4,32 +4,29 @@ import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 import { motion } from 'framer-motion';
-import phoneMockup from '../../assets/phone-mockup.png'; // Add your image
+import phoneMockup from '../../assets/phone-mockup.png';
 
-const topics = [
-  'Personal Finance',
-  'Loans and Credit',
-  'Cryptocurrency',
-  'Equity and Stock Market',
-  'Retirement Planning',
-  'Gold and Commodities',
-  'Mutual Funds and SIPs',
-  'Other',
-];
+const BASE_API = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api/v1';
+const topics = ['crypto', 'Gold', 'Silver', 'banking', 'ai', 'stock', 'finance', 'Retirement Planing', 'Stocks', 'Mutual Funds', 'Savings', 'Sensex'];
 
-const OnboardingPage = () => {
+  const OnboardingPage = () => {
   const [selectedTopics, setSelectedTopics] = useState([]);
   const [userId, setUserId] = useState(null);
-  const { user } = useContext(AuthContext);
+  const { user, token, isLoading } = useContext(AuthContext);
   const navigate = useNavigate();
 
   useEffect(() => {
+    if (isLoading) return; // wait for auth to finish loading
+
     if (user?.userId) {
       setUserId(user.userId);
     } else {
       toast.error('User not authenticated. Please log in again.');
+      navigate('/auth/login');
     }
-  }, [user]);
+  }, [user, isLoading, navigate]);
+
+  if (isLoading) return null; // or a loading spinner
 
   const toggleTopic = (topic) => {
     setSelectedTopics((prev) =>
@@ -40,17 +37,21 @@ const OnboardingPage = () => {
   };
 
   const handleSubmit = async () => {
-    if (!userId) {
-      toast.error('User ID not found. Please log in again.');
+    if (!userId || !token) {
+      toast.error('User not authenticated properly. Please log in again.');
       return;
     }
 
     try {
-      await axios.post('http://localhost:8000/api/v1/auth/preferences', {
-        userId,
-        preferences: selectedTopics,
-      });
-
+      await axios.post(
+        `${BASE_API}/auth/preferences`,
+        { userId, preferences: selectedTopics },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       toast.success('Preferences saved successfully!');
       navigate('/dashboard');
     } catch (error) {

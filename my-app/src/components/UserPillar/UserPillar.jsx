@@ -10,20 +10,22 @@ const UserPillar = ({ username, userId, selectedPage, setSelectedPage }) => {
   const displayName = username || 'shubham';
 
   const navigationItems = [
-    { name: 'Home', icon: '🏠' },
-    { name: 'Content Feed', icon: '📰' },
-    { name: 'Portfolio', icon: '💼' },
-    { name: 'Quiz', icon: '📚' },
-    { name: 'Paper Trading', icon: '📊' },
-    { name: 'YogiBot', icon: '🤖' },
+    { name: 'Home', icon: '' },
+    { name: 'Content Feed', icon: '' },
+    { name: 'Portfolio', icon: '' },
+    { name: 'Quiz', icon: '' },
+    { name: 'Market Research', icon: '' },
+    { name: 'Paper Trading', icon: '' },
+    { name: 'YogiBot', icon: '' },
   ];
+  const BASE_API = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api/v1';
 
   useEffect(() => {
     const fetchCoins = async () => {
       try {
-        const res = await fetch(`http://localhost:8000/api/v1/user/coins/${userId}`);
+        const res = await fetch(`${BASE_API}/api/v1/user/coins/${userId}`);
         const data = await res.json();
-        setCoinBalance(data?.coins || 0);
+        setCoinBalance(data?.totalCoins);
       } catch (err) {
         console.error('Failed to fetch Yogi Coins:', err);
         setCoinBalance(0);
@@ -91,7 +93,7 @@ const UserPillar = ({ username, userId, selectedPage, setSelectedPage }) => {
             onClick={async () => {
               setIsLoggingOut(true);
               try {
-                await fetch('http://localhost:8000/api/v1/auth/logout', {
+                await fetch(`${BASE_API}/api/v1/auth/logout`, {
                   method: 'POST',
                   headers: { 'Content-Type': 'application/json' },
                   credentials: 'include',

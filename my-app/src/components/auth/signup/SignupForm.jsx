@@ -7,6 +7,7 @@ import { AuthContext } from "../../../context/AuthContext";
 const SignupForm = () => {
   const navigate = useNavigate();
   const { login } = useContext(AuthContext);
+  const BASE_API = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000/api/v1";
 
   const [username, setUserName] = useState("");
   const [email, setEmail] = useState("");
@@ -19,7 +20,7 @@ const SignupForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:8000/api/v1/auth/register", {
+      const response = await axios.post(`${BASE_API}/api/v1/auth/register`, {
         username,
         email,
         password,
@@ -37,6 +38,10 @@ const SignupForm = () => {
       console.error("Signup error:", error);
       toast.error("Something went wrong. Please try again.");
     }
+  };
+
+  const handleGoogleLogin = () => {
+    window.location.href = `${BASE_API}/api/v1/auth/google`;
   };
 
   const triggerConfetti = () => {
@@ -144,6 +149,7 @@ const SignupForm = () => {
           <div className="flex flex-col sm:flex-row gap-4 mt-2">
             <button
               type="button"
+              onClick={handleGoogleLogin}
               className="flex items-center justify-center gap-2 w-full py-2 px-4 border border-white/20 rounded-full bg-white/10 text-white hover:bg-white/20"
             >
               <img src="/google-logo.png" alt="Google" className="h-5 w-5" />

@@ -4,7 +4,7 @@ import {
   } from "react-router-dom";
   import { Link } from "react-router-dom";
 
-const LandingPageNavbar = () => {
+const LandingPageNavbar = ({nature}) => {
 	 const [isMenuOpen, setIsMenuOpen] = useState(false);
 	 const navigate = useNavigate();
 
@@ -31,7 +31,7 @@ const LandingPageNavbar = () => {
 	return (
         
 		<div 
-			className="backdrop-blur-xl w-screen shadow-2xl fixed pr-6 sm:pr-10 p-3 sm:p-4 left-0 right-0 z-50 border-b border-white/10"
+			className={`backdrop-blur-xl w-full shadow-2xl ${nature} pr-6 sm:pr-10 p-3 sm:p-4 left-0 right-0 z-50 border-b border-white/10`}
 			style={{
 				background: 'linear-gradient(135deg, rgba(15, 32, 39, 0.9) 0%, rgba(32, 58, 67, 0.8) 25%, rgba(44, 83, 100, 0.7) 50%, rgba(26, 74, 58, 0.8) 75%, rgba(13, 61, 47, 0.9) 100%)',
 				boxShadow: '0 10px 30px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.1)',
