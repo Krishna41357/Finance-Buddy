@@ -5,7 +5,7 @@ import { Toaster } from 'react-hot-toast';
 // User pages
 import BeforeLogin from './pages/landingPage/BeforeLogin';
 import LoginPage from './components/auth/login/loginPage';
-import SignupForm from './components/auth/signup/signupForm';
+import SignupForm from './components/auth/signup/SignupForm';
 import OnboardingPage from './pages/onboarding/OnboardingPage';
 import AfterLogin from './pages/landingPage/AfterLogin';
 import OAuthSuccessHandler from './components/auth/login/OAuthSuccessHandler';
