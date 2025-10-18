@@ -16,7 +16,6 @@
     "@tailwindcss/line-clamp": "^0.4.4",
     "@tailwindcss/vite": "^4.1.5",
     "axios": "^1.9.0",
-    "chart.js": "^4.5.0",
     "clerk-react": "^0.1.9",
     "core-js-pure": "^3.43.0",
     "framer-motion": "^12.23.3",
