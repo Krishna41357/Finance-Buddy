@@ -87,10 +87,13 @@ const Dashboard = ({ onActionClick }) => {  // Fixed: destructure onActionClick 
 
   const fetchRecentArticles = async () => {
     if (!userId) return;
+
+    const controller = new AbortController();
+    const timeout = setTimeout(()=>controller.abort() , 2000); //timeout 2s
     
     setLoadingStates(prev => ({ ...prev, articles: true }));
     try {
-      const res = await fetch(`${BASE_API}/api/v1}/blogCache/recentBlogs?userId=${userId}&type=News`);
+      const res = await fetch(`${BASE_API}/api/v1}/blogCache/recentBlogs?userId=${userId}&type=News`, {signal : controller.signal});
       if (res.ok) {
         const data = await res.json();
         const articles = Array.isArray(data?.articles) ? data.articles : Array.isArray(data) ? data : [];

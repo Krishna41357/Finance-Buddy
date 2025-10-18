@@ -44,7 +44,7 @@ const topics = ['crypto', 'Gold', 'Silver', 'banking', 'ai', 'stock', 'finance',
 
     try {
       await axios.post(
-        `${BASE_API}/auth/preferences`,
+        `${BASE_API}/api/v1/auth/preferences`,
         { userId, preferences: selectedTopics },
         {
           headers: {

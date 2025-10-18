@@ -23,7 +23,7 @@ const FinancialProfilePage = ({ username }) => {
     'Emergency Fund', 'Retirement Planning', 'Home Buying',
     'Education', 'Debt Payoff', 'Wealth Building'
   ];
-  const BASE_API = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api/v1';
+  const BASE_API = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
 
   // Fetch profile from API
   const fetchProfile = async () => {
