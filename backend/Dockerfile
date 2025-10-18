@@ -1,20 +1,21 @@
-# Use official Node.js 18 image as base
+# Use Node 18 official image
 FROM node:18
 
 # Set working directory
 WORKDIR /app
 
-# Copy package.json and package-lock.json
+# Copy package.json and install dependencies
 COPY package*.json ./
+RUN npm install --production
 
-# Install dependencies
-RUN npm install
-
-# Copy all project files including .env
+# Copy rest of the code
 COPY . .
 
-# Expose port 4000
-EXPOSE 4000
+# Expose the app’s internal port (Render expects 10000 by default)
+EXPOSE 10000
+
+# Set environment variable for port
+ENV PORT=10000
 
 # Start the app
 CMD ["node", "index.js"]
