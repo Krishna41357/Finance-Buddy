@@ -7,9 +7,10 @@ export default defineConfig(({ mode }) => {
 
   return {
     plugins: [react()],
-    build:{
-       rollupOptions: {
-      external: ["react-chartjs-2", "chart.js"],
+    build: {
+      rollupOptions: {
+        external: ["react-chartjs-2", "chart.js"],
+      }
     },
     server: {
       proxy: {
@@ -21,4 +22,4 @@ export default defineConfig(({ mode }) => {
       }
     }
   }
-})
+});
