@@ -6,12 +6,9 @@ export default defineConfig(({ mode }) => {
 
   return {
     plugins: [react()],
-    base: './', // ✅ Important for Vercel / relative paths
+    base: './', // Important for Vercel / relative paths
     build: {
-      rollupOptions: {
-        external: ["react-chartjs-2", "chart.js"],
-      },
-      chunkSizeWarningLimit: 2000, // optional, to avoid large chunk warnings
+      chunkSizeWarningLimit: 2000, // optional
     },
     server: {
       proxy: {
