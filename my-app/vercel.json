@@ -10,9 +10,9 @@
     }
   ],
   "rewrites": [
-    // Serve static assets normally
+    
     { "source": "/(.*\\..+)", "destination": "/$1" },
-    // Catch-all for SPA routes
+ 
     { "source": "/(.*)", "destination": "/index.html" }
   ],
   "headers": [
