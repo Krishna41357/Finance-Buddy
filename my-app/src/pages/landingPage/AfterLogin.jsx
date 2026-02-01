@@ -58,6 +58,7 @@ const AfterLogin = () => {
             userId={userId}
             selectedPage={selectedPage}
             setSelectedPage={setSelectedPage}
+            setSidebarOpen={setSidebarOpen}
           />
         </div>
 

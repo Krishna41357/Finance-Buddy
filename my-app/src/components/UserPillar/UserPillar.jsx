@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Avatar from '../Avatar/Avatar';
 
-const UserPillar = ({ username, userId, selectedPage, setSelectedPage }) => {
+const UserPillar = ({ username, userId, selectedPage, setSelectedPage, setSidebarOpen }) => {
   const navigate = useNavigate();
   const [isLoggingOut, setIsLoggingOut] = useState(false);
   const [coinBalance, setCoinBalance] = useState(null);
 
-  const displayName = username || 'shubham';
+  const displayName = username || 'krishna';
 
   const navigationItems = [
     { name: 'Home', icon: '' },
@@ -73,7 +73,10 @@ const UserPillar = ({ username, userId, selectedPage, setSelectedPage }) => {
           {navigationItems.map((item, index) => (
             <div
               key={index}
-              onClick={() => setSelectedPage(item.name)}
+              onClick={() => {
+                setSelectedPage(item.name);
+                if (setSidebarOpen) setSidebarOpen(false);
+              }}
               className={`group relative flex items-center px-4 py-3 rounded-xl cursor-pointer transition-all duration-200 ${
                 selectedPage === item.name
                   ? 'bg-emerald-600/20 text-emerald-300 border border-emerald-500/30 shadow-inner'
